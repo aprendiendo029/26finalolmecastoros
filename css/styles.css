@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Quiniela Béisbol LMB 2026 - Estilos CSS Consolidados
+   Estética Apple Clean & Minimalista + Configuración Extendida Tailwind
+   ========================================================================== */
+
+/* Configuración de renderizado de tipografía fina estilo Apple */
+body {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Efecto Glassmorphic para el Encabezado Superior */
+.apple-glass {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Animación Resplandeciente para el Distintivo de Líder (Gold Pulse) */
+@keyframes leaderGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.5), inset 0 0 4px rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.85), inset 0 0 8px rgba(245, 158, 11, 0.4);
+    border-color: rgba(251, 191, 36, 1);
+  }
+}
+
+.leader-badge-animated {
+  animation: leaderGlow 2s infinite ease-in-out;
+}
+
+/* Ocultar las flechas arriba/abajo (spinners) en inputs numéricos */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Resaltado completo de celdas con texto 100% visible */
+input[type=number].cell-hit,
+select.cell-hit,
+div.cell-hit {
+  background-color: #10b981 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #059669 !important;
+  font-weight: 900 !important;
+}
+
+input[type=number].cell-miss,
+select.cell-miss,
+div.cell-miss {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #dc2626 !important;
+  font-weight: 900 !important;
+}
+
+/* Transición suave para celdas de puntuación e inputs */
+.score-cell {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Ocultar barra de desplazamiento manteniendo funcionalidad de scroll horizontal */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Clases de soporte y colores personalizados de los participantes */
+.bg-honolulu-bg { background-color: #e8f4fd; }
+.bg-honolulu-50 { background-color: #f0f7ff; }
+.bg-honolulu-100 { background-color: #e0f0fe; }
+.bg-honolulu-200 { background-color: #bae2fd; }
+.bg-honolulu-300 { background-color: #7ccbfd; }
+.bg-honolulu-400 { background-color: #38bdf8; }
+.bg-honolulu-500 { background-color: #0284c7; }
+.bg-honolulu-600 { background-color: #0369a1; }
+.text-honolulu-700 { color: #075985; }
+.border-honolulu-300 { border-color: #7ccbfd; }
+
+.bg-bottlegreen-bg { background-color: #eafaf1; }
+.bg-bottlegreen-50 { background-color: #f0fdf4; }
+.bg-bottlegreen-100 { background-color: #dcfce7; }
+.bg-bottlegreen-200 { background-color: #bbf7d0; }
+.bg-bottlegreen-300 { background-color: #86efac; }
+.bg-bottlegreen-400 { background-color: #4ade80; }
+.bg-bottlegreen-500 { background-color: #16a34a; }
+.bg-bottlegreen-600 { background-color: #15803d; }
+.text-bottlegreen-700 { color: #166534; }
+.border-bottlegreen-300 { border-color: #86efac; }
+
+.bg-tangerine-bg { background-color: #fff4eb; }
+.bg-tangerine-50 { background-color: #fff7ed; }
+.bg-tangerine-100 { background-color: #ffedd5; }
+.bg-tangerine-200 { background-color: #fed7aa; }
+.bg-tangerine-300 { background-color: #fdba74; }
+.bg-tangerine-400 { background-color: #fb923c; }
+.bg-tangerine-500 { background-color: #ea580c; }
+.bg-tangerine-600 { background-color: #c2410c; }
+.text-tangerine-700 { color: #9a3412; }
+.border-tangerine-300 { border-color: #fdba74; }
+
+/* Botón Insertar: Efecto Glass Azul Honolulu claro y nítido */
+.btn-insert-playoff {
+  background: rgba(2, 132, 199, 0.12) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  color: #0369a1 !important;
+  border: 1px solid rgba(2, 132, 199, 0.35) !important;
+  box-shadow: 0 4px 16px 0 rgba(2, 132, 199, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-insert-playoff:hover {
+  background: rgba(2, 132, 199, 0.20) !important;
+  color: #0284c7 !important;
+  border-color: rgba(2, 132, 199, 0.55) !important;
+  box-shadow: 0 6px 20px 0 rgba(2, 132, 199, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-1px);
+}
+.btn-insert-playoff:active {
+  background: rgba(2, 132, 199, 0.28) !important;
+  color: #0c4a6e !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 2px 6px 0 rgba(2, 132, 199, 0.12) !important;
+  transform: scale(0.98);
+}
+
+/* Botón Borrar: Efecto Glass Rojo Mate claro y nítido */
+.btn-delete-playoff {
+  background: rgba(220, 38, 38, 0.12) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  color: #b91c1c !important;
+  border: 1px solid rgba(220, 38, 38, 0.35) !important;
+  box-shadow: 0 4px 16px 0 rgba(220, 38, 38, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-delete-playoff:hover {
+  background: rgba(220, 38, 38, 0.20) !important;
+  color: #dc2626 !important;
+  border-color: rgba(220, 38, 38, 0.55) !important;
+  box-shadow: 0 6px 20px 0 rgba(220, 38, 38, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-1px);
+}
+.btn-delete-playoff:active {
+  background: rgba(220, 38, 38, 0.28) !important;
+  color: #7f1d1d !important;
+  border-color: #dc2626 !important;
+  box-shadow: 0 2px 6px 0 rgba(220, 38, 38, 0.12) !important;
+  transform: scale(0.98);
+}
+
+/* Configuración extendida de temas (Charcoal y Sombras Apple) */
+.bg-charcoal { background-color: #3b3e45; }
+.bg-charcoal-dark { background-color: #2d3036; }
+.bg-charcoal-light { background-color: #4f535c; }
+.bg-charcoal\/5 { background-color: rgba(59, 62, 69, 0.05); }
+.from-charcoal { --tw-gradient-from: #3b3e45 var(--tw-gradient-from-position); --tw-gradient-to: rgb(59 62 69 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-from), var(--tw-gradient-to)); }
+.via-charcoal { --tw-gradient-to: rgb(59 62 69 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), #3b3e45 var(--tw-gradient-via-position), var(--tw-gradient-to); }
+.via-charcoal-dark { --tw-gradient-to: rgb(45 48 54 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), #2d3036 var(--tw-gradient-via-position), var(--tw-gradient-to); }
+.to-charcoal { --tw-gradient-to: #3b3e45 var(--tw-gradient-to-position); }
+.from-charcoal-dark\/90 { --tw-gradient-from: rgba(45, 48, 54, 0.9) var(--tw-gradient-from-position); --tw-gradient-to: rgb(45 48 54 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-from), var(--tw-gradient-to)); }
+.via-charcoal\/40 { --tw-gradient-to: rgb(59 62 69 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), rgba(59, 62, 69, 0.4) var(--tw-gradient-via-position), var(--tw-gradient-to); }
+.border-charcoal-light\/40 { border-color: rgba(79, 83, 92, 0.4); }
+.hover\:bg-charcoal-dark:hover { background-color: #2d3036; }
+
+.shadow-apple { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02); }
+.shadow-apple-hover { box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03); }
+.shadow-apple-card { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02); }

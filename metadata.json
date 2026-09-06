@@ -1,0 +1,6 @@
+{
+  "name": "Quiniela LMB 2026",
+  "description": "Quiniela oficial de los Playoffs y Serie del Rey de la Liga Mexicana de Béisbol (LMB) 2026 con sincronización en tiempo real vía Google Firebase Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
