@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased selection:bg-blue-500 selection:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiniela Béisbol LMB 2026 | Serie del Rey</title>
+  <meta name="description" content="Quiniela oficial de los Playoffs y Serie del Rey de la Liga Mexicana de Béisbol (LMB) 2026 con sincronización en tiempo real vía Google Firebase Firestore.">
+  <meta property="og:title" content="Quiniela Béisbol LMB 2026 | Serie del Rey">
+  <meta property="og:description" content="Quiniela oficial de los Playoffs y Serie del Rey de la Liga Mexicana de Béisbol (LMB) 2026 con sincronización en tiempo real vía Google Firebase Firestore.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Hoja de Estilos Personalizados y Soporte Extendido -->
+  <link rel="stylesheet" href="./css/styles.css">
+
+  <!-- Módulo Principal JavaScript (ES6+ Modules) -->
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between bg-[#f5f5f7] text-[#1d1d1f]">
+
+  <!-- TOP BAR -->
+  <header class="sticky top-0 z-50 apple-glass border-b border-slate-200/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20 gap-2">
+        
+        <!-- Brand & Title + Live Status Badge -->
+        <div class="flex items-center space-x-3 shrink-0">
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base sm:text-xl font-bold tracking-tight text-slate-900 leading-tight">
+                Quiniela LMB <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 ml-1">2026</span>
+              </h1>
+              
+              <!-- Cloud Live Sync Badge -->
+              <div id="cloud-status-badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-700 border border-amber-400/30">
+                <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                <span id="cloud-status-text">Conectando Firebase...</span>
+              </div>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block font-medium">Serie del Rey · Liga Mexicana de Béisbol · Edición Verano</p>
+          </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="flex items-center gap-2 overflow-x-auto scrollbar-none py-1">
+          <div id="leaderboard-container" class="flex items-center space-x-2 sm:space-x-3 shrink-0">
+            <!-- Dinámico -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+ <!-- HERO BANNER SECTION -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+    <div class="relative rounded-3xl overflow-hidden shadow-apple bg-charcoal border border-slate-200/60 group">
+      
+      <!-- CONTENEDOR CON RELACIÓN DE ASPECTO COMPLETA (16:9) -->
+      <div class="relative w-full aspect-video overflow-hidden">
+        
+        <!-- VIDEO HERO CON FALLBACK Y POSTER -->
+        <video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          poster="/imagenbanner26_1.webp" 
+          class="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
+        >
+          <source src="/videobanner26_1.webm" type="video/webm">
+          
+          <!-- Plan de contingencia para navegadores antiguos -->
+          <img 
+            src="/imagenbanner26_1.webp" 
+            alt="Playoffs Béisbol LMB 2026" 
+            class="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-105"
+            onerror="this.src='https://placehold.co/1365x768/3b3e45/ffffff?text=LMB+Playoffs+2026+Quiniela'"
+          />
+        </video>
+
+        <!-- Capa de sombra/degradado para legibilidad del texto -->
+        <div class="absolute inset-0 bg-gradient-to-t from-charcoal-dark/90 via-charcoal/40 to-transparent pointer-events-none"></div>
+      </div>
+      
+      <div class="absolute inset-0 p-4 sm:p-6 text-white flex items-end justify-between pointer-events-none">
+        <div>
+          <div class="flex items-center gap-2 mb-1 flex-wrap">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-white/15 backdrop-blur-md text-white/80 border border-white/20 tracking-wide uppercase">
+              Temporada Oficial 2026
+            </span>
+          </div>
+          <h2 class="text-lg sm:text-2xl font-extrabold tracking-tight text-white leading-tight mt-1">
+            Gran Batalla de Serie del Rey
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTROL BAR & LEGEND SECTION -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
+    
+    <!-- Info Bar: Colors & Scoring Rules -->
+    <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-apple border border-slate-200/80">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+        
+        <!-- Rules -->
+        <div class="flex flex-col justify-center md:border-r border-slate-200/80 md:pr-4">
+          <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Reglas de Puntaje Extendido</h3>
+          <p class="text-slate-600 text-xs mt-1 leading-relaxed">
+            Cada casilla acertada (<span class="font-semibold text-slate-800">R, H, E, BB, HR</span> para Visitante, Local y Totales) + <span class="font-semibold text-slate-800">Ganador</span> otorga <span class="font-bold text-slate-900">1 Punto</span>. Máximo 16 pts por juego.
+          </p>
+        </div>
+
+        <!-- Legend Colors for Validation -->
+        <div class="flex flex-col justify-center md:border-r border-slate-200/80 md:pr-4">
+          <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Validación de Aciertos</h3>
+          <div class="flex items-center space-x-2 mt-1.5">
+            <span class="px-2 py-0.5 rounded bg-emerald-500 text-white font-black text-[11px] shadow-sm">Acierto</span>
+            <span class="text-slate-500 text-xs">Verde (+1 pt)</span>
+            <span class="px-2 py-0.5 rounded bg-red-500 text-white font-black text-[11px] shadow-sm ml-2">Fallo</span>
+            <span class="text-slate-500 text-xs">Rojo</span>
+          </div>
+        </div>
+
+        <!-- Participants Color Themes -->
+        <div class="flex flex-col justify-center">
+          <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Participantes</h3>
+          <div class="flex items-center space-x-2 mt-1.5 text-[11px] font-semibold">
+            <span class="px-2 py-0.5 rounded bg-honolulu-100 text-honolulu-700 border border-honolulu-300">Gori</span>
+            <span class="px-2 py-0.5 rounded bg-bottlegreen-100 text-bottlegreen-700 border border-bottlegreen-300">MM</span>
+            <span class="px-2 py-0.5 rounded bg-tangerine-100 text-tangerine-700 border border-tangerine-300">TM</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MÓDULO PARA INSERTAR, BORRAR Y CERRAR JUEGOS (SERIE DEL REY 08 - 16 SEPTIEMBRE 2026) -->
+    <section class="bg-white rounded-2xl p-4 sm:p-6 shadow-apple border border-slate-200/90 transition-all">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+            <span>Serie del Rey</span>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">08 Sep – 16 Sep 2026</span>
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">Captura y gestiona encuentros directamente en el calendario oficial sincronizados en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- Fila 1: Selectores de Fecha, Visitante y Local -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-4 items-end">
+        <!-- Selector de Fecha -->
+        <div>
+          <label for="new-game-date" class="block text-xs font-bold text-slate-700 mb-1.5">
+            Fecha del Partido:
+          </label>
+          <select id="new-game-date" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition">
+            <option value="Martes 8 Septiembre">Martes 8 Septiembre</option>
+            <option value="Miércoles 9 Septiembre">Miércoles 9 Septiembre</option>
+            <option value="Jueves 10 Septiembre">Jueves 10 Septiembre</option>
+            <option value="Viernes 11 Septiembre">Viernes 11 Septiembre</option>
+            <option value="Sábado 12 Septiembre">Sábado 12 Septiembre</option>
+            <option value="Domingo 13 Septiembre">Domingo 13 Septiembre</option>
+            <option value="Lunes 14 Septiembre">Lunes 14 Septiembre</option>
+            <option value="Martes 15 Septiembre">Martes 15 Septiembre</option>
+            <option value="Miércoles 16 Septiembre">Miércoles 16 Septiembre</option>
+          </select>
+        </div>
+
+        <!-- Selector Equipo Visitante (V) -->
+        <div>
+          <label for="new-game-visitor" class="block text-xs font-bold text-slate-700 mb-1.5">
+            Equipo Visitante (V):
+          </label>
+          <select id="new-game-visitor" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition">
+            <option value="TAB" selected>TAB – Olmecas de Tabasco (Sur)</option>
+            <option value="TIJ">TIJ – Toros de Tijuana (Norte)</option>
+          </select>
+        </div>
+
+        <!-- Selector Equipo Local (L) -->
+        <div>
+          <label for="new-game-local" class="block text-xs font-bold text-slate-700 mb-1.5">
+            Equipo Local (L):
+          </label>
+          <select id="new-game-local" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition">
+            <option value="TAB">TAB – Olmecas de Tabasco (Sur)</option>
+            <option value="TIJ" selected>TIJ – Toros de Tijuana (Norte)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Fila 2: Botones Insertar, Borrar y Cerrar -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3 mt-1 border-t border-slate-100">
+        <div class="w-full sm:w-[75%] flex flex-col sm:flex-row items-center gap-3">
+          <!-- Botón Insertar -->
+          <button 
+            type="button" 
+            onclick="insertNewGameFromUI()" 
+            id="btn-insert-game"
+            class="btn-insert-playoff w-full sm:flex-1 h-[40px] text-xs sm:text-sm font-extrabold rounded-xl shadow-sm hover:shadow flex items-center justify-center tracking-wide"
+          >
+            Insertar
+          </button>
+
+          <!-- Botón Borrar -->
+          <button 
+            type="button" 
+            onclick="deleteGameFromUI()" 
+            id="btn-delete-game"
+            class="btn-delete-playoff w-full sm:flex-1 h-[40px] text-xs sm:text-sm font-extrabold rounded-xl shadow-sm hover:shadow flex items-center justify-center tracking-wide"
+          >
+            Borrar
+          </button>
+
+          <!-- Botón Cerrar (Protegido por Contraseña) -->
+          <button 
+            type="button" 
+            onclick="closeGamePicksWithPassword()" 
+            id="btn-close-game"
+            class="w-full sm:flex-1 h-[40px] text-xs sm:text-sm font-extrabold text-white bg-[#001f3f] hover:bg-[#001226] rounded-xl shadow-sm hover:shadow flex items-center justify-center tracking-wide transition-all"
+          >
+            Cerrado
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Date / Category Filter Buttons -->
+    <div class="flex flex-col gap-3 bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-sm justify-center">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        
+        <!-- Zone Filter Buttons -->
+        <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl shrink-0 self-start lg:self-auto" id="zone-filter-buttons">
+          <button 
+            onclick="setZoneFilter('TODOS')" 
+            id="zone-btn-TODOS"
+            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-charcoal text-white shadow-sm"
+          >
+            Ambos (Todas)
+          </button>
+          <button 
+            onclick="setZoneFilter('Norte')" 
+            id="zone-btn-Norte"
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all"
+          >
+            Zona Norte
+          </button>
+          <button 
+            onclick="setZoneFilter('Sur')" 
+            id="zone-btn-Sur"
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all"
+          >
+            Zona Sur
+          </button>
+        </div>
+
+        <div class="text-xs text-slate-500 font-medium shrink-0 flex items-center justify-between lg:justify-end gap-2 border-t lg:border-t-0 pt-2 lg:pt-0 border-slate-100">
+          <span class="text-slate-400 font-normal">Filtro por fecha:</span>
+          <span id="game-count-badge" class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg font-bold border border-slate-200">0 Partidos</span>
+        </div>
+      </div>
+
+      <!-- Date Filter Buttons -->
+      <div class="w-full overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x py-1.5 scrollbar-thin">
+        <div class="flex items-center gap-2 min-w-max pr-6 py-0.5" id="date-filter-buttons">
+          <!-- Dinámico -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MAIN GAMES CONTAINER GRID -->
+    <div id="games-container" class="space-y-8">
+      <!-- Dinámico -->
+    </div>
+
+  </main>
+
+  <!-- MODAL DE CONFIRMACIÓN PARA BORRAR JUEGO -->
+  <div id="delete-confirm-modal" class="fixed inset-0 z-[10000] bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200 transform transition-all text-center">
+      <div class="w-14 h-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+        🗑️
+      </div>
+      <h3 class="text-base font-extrabold text-slate-900 mb-2">¿Confirmar eliminación de juego?</h3>
+      <p class="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
+        Al borrar el juego se eliminaran todos los datos de fecha y resultados capturados, realmente quieres borrar? si o no?
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <button 
+          type="button" 
+          onclick="closeDeleteModal()" 
+          class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
+        >
+          No, cancelar
+        </button>
+        <button 
+          type="button" 
+          onclick="executeDeleteGame()" 
+          class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-red-600 hover:bg-red-700 text-white shadow-md transition"
+        >
+          Sí, borrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200/80 py-8 mt-12 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
+      <p class="font-semibold text-slate-700">Quiniela de Béisbol entre Amigos · Gori, MM & TM</p>
+      <p>Serie del Rey Liga Mexicana de Béisbol (LMB) Edición Verano 2026</p>
+      <p class="text-[11px] text-slate-400">Sincronización en tiempo real con Bitácora de Auditoría vía Google Firebase</p>
+    </div>
+  </footer>
+
+</body>
+</html>
